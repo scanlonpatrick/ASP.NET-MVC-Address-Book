@@ -3,26 +3,33 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 	<title></title>
+	<style type="text/css">
+		.header td
+		{
+			font-weight: bold;
+			text-decoration: underline;
+		}
+	</style>
 </head>
 <body>
 	<div>
-		<% foreach(AddressModel model in (List<AddressModel>)ViewData["Addresses"]) 
-		{  %>
-			<div>
-				<label>First Name:</label>
-				<%= Html.TextBox("FirstName", model.FirstName) %>
-				<br/>
-				<label>Last Name:</label>
-				<%= Html.TextBox("LastName", model.LastName) %>
-				<br/>
-				<label>Address:</label>
-				<%= Html.TextBox("Address", model.Address) %>
-				<br/>
-				<%= Html.ActionLink("Edit", "EditAddress", "Home", new { Id = model.Id }) %>
-			</div>
-		<br/>
-		<br/>
-		<% } %>
+		<table>
+			<tr class="header">
+				<td>First Name</td>
+				<td>Last Name</td>
+				<td>Address</td>
+				<td></td>
+			</tr>
+			<% foreach(AddressModel model in (List<AddressModel>)ViewData["Addresses"]) 
+			{  %>
+				<tr>
+					<td><%= Html.TextBox("FirstName", model.FirstName) %></td>
+					<td><%= Html.TextBox("LastName", model.LastName) %></td>
+					<td><%= Html.TextBox("Address", model.Address) %></td>
+					<td><%= Html.ActionLink("Edit", "EditAddress", "Home", new { Id = model.Id }) %></td>
+				</tr>
+			<% } %>
+		</table>
 	</div>
 </body>
 
