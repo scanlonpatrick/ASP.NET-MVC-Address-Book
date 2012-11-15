@@ -26,10 +26,11 @@
 					<td><%= Html.TextBox("FirstName", model.FirstName) %></td>
 					<td><%= Html.TextBox("LastName", model.LastName) %></td>
 					<td><%= Html.TextBox("Address", model.Address) %></td>
-					<td><%= Html.ActionLink("Edit", "EditAddress", "Home", new { Id = model.Id }) %></td>
+					<td><%= Html.ActionLink("Edit", "EditAddress", new { Id = model.Id }) %></td>
 				</tr>
 			<% } %>
 		</table>
+		<%=Html.ActionLink("Create new Entry", "NewAddress") %>
 	</div>
 </body>
 

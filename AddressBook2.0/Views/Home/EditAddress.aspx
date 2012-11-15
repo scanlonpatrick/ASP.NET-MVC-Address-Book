@@ -4,15 +4,15 @@
 	<title></title>
 </head>
 <body>
-	<form id="form1" target="/Home/SaveAddress">
+	<form id="form1" method="post" action="/Home/SaveAddress">
 		<label for="FirstName">FirstName</label>
-		<% Html.TextBox("FirstName") %>
+		<%= Html.TextBox("FirstName") %>
 		<br/>
 		<label for="LastName">Last Name</label>
-		<% Html.TextBox("LastName") %>
+		<%= Html.TextBox("LastName") %>
 		<br/>
 		<label for="Address">Address</label>
-		<% Html.TextBox("Address") %>
+		<%= Html.TextBox("Address") %>
 		<br/>
 		<input type="submit" value="Save"/>
 	</form>
