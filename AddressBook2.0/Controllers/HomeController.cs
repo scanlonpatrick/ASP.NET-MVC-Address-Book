@@ -29,7 +29,7 @@ namespace Controllers
 				if(address.Id == Id) return address;
 			
 			//* No address by that ID found
-			throw new ApplicationException("No Address with that ID was found in the Address Store");
+			throw new ApplicationException("Address ID " + Id + " was found in the Address Store");
 		}
 		
 		private void SaveModel(AddressModel address)
@@ -40,6 +40,13 @@ namespace Controllers
 			this.AddressStore.Add(address);
 		}
 		
+		private void UpdateAddress(int Id, AddressModel address)
+		{
+			AddressModel originalAddress = this.GetAddressById(Id);
+			originalAddress.FirstName = address.FirstName;
+			originalAddress.LastName = address.LastName;
+			originalAddress.Address = address.Address;
+		}
 		#endregion
 		
 		public ActionResult Index ()
@@ -87,6 +94,7 @@ namespace Controllers
 				this.ViewData["FirstName"] = address.FirstName;
 				this.ViewData["LastName"] = address.LastName;
 				this.ViewData["Address"] = address.Address;
+				this.ViewData["Id"] = Id;
 			}
 			return View ();	
 		}
@@ -108,7 +116,14 @@ namespace Controllers
 			address.LastName = Request.Form["LastName"];
 			address.Address = Request.Form["Address"];
 			
-			this.SaveModel(address);
+			if(Request.Form["Id"] != "-1")
+			{
+				//* this is an update rather than a save
+				int Id = int.Parse(Request.Form["Id"]);
+				this.UpdateAddress(Id, address);
+			}
+			else
+				this.SaveModel(address);
 			
 			return this.RedirectToAction("Index");
 		}
