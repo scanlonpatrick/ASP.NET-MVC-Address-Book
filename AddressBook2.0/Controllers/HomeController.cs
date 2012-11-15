@@ -16,10 +16,10 @@ namespace Controllers
 		{
 			get
 			{
-				if(this.TempData["AddressList"] == null)
-					this.TempData["AddressList"] = new List<AddressModel>();
+				if(this.Session["AddressList"] == null)
+					this.Session["AddressList"] = new List<AddressModel>();
 				
-				return this.TempData["AddressList"];
+				return (List<AddressModel>)this.Session["AddressList"];
 			}
 		}
 		
@@ -34,7 +34,8 @@ namespace Controllers
 		
 		private void SaveModel(AddressModel address)
 		{
-			int newId = this.AddressStore.Max(x => x.Id) + 1;
+			int maxCurrentId = this.AddressStore.Max(x => x.Id);
+			int newId = maxCurrentId + 1;
 			address.Id = newId;
 			this.AddressStore.Add(address);
 		}
@@ -65,6 +66,8 @@ namespace Controllers
 				this.AddressStore.Add(tomCruise);
 			}
 			
+			this.ViewData["Addresses"] = this.AddressStore;
+			
 			return View ();
 		}
 		
@@ -80,7 +83,10 @@ namespace Controllers
 			}
 			else
 			{
-				//* TODO: query for address by Id	
+				AddressModel address = this.GetAddressById(Id);
+				this.ViewData["FirstName"] = address.FirstName;
+				this.ViewData["LastName"] = address.LastName;
+				this.ViewData["Address"] = address.Address;
 			}
 			return View ();	
 		}
@@ -102,7 +108,8 @@ namespace Controllers
 			address.LastName = Request.Form["LastName"];
 			address.Address = Request.Form["Address"];
 			
-			//* TODO: Save or update
+			this.SaveModel(address);
+			
 			return this.RedirectToAction("Index");
 		}
 	}
